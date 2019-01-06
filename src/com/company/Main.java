@@ -1,66 +1,60 @@
 package com.company;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  throws UnknownHostException, IOException, InterruptedException {
+//        int number, temp ;
+//        Scanner sc = new Scanner(System.in);
+//        Socket s = new Socket("127.0.0.1",1342);
+//        Scanner sc1 =  new Scanner(s.getInputStream());
 
         // Create and add our cities
-        City city = new City(60, 200);
+        City city = new City(60, 200, "Opole");
         TourManager.addCity(city);
-        City city2 = new City(180, 200);
+        City city2 = new City(180, 200,"Warszawa");
         TourManager.addCity(city2);
-        City city3 = new City(80, 180);
+        City city3 = new City(80, 180, "Radom");
         TourManager.addCity(city3);
-        City city4 = new City(140, 180);
+        City city4 = new City(140, 180,"Krakow");
         TourManager.addCity(city4);
-        City city5 = new City(20, 160);
+        City city5 = new City(20, 160, "Kalisz");
         TourManager.addCity(city5);
-        City city6 = new City(100, 160);
+        City city6 = new City(100, 160, "Katowice");
         TourManager.addCity(city6);
-        City city7 = new City(200, 160);
+        City city7 = new City(200, 160, "Gdansk");
         TourManager.addCity(city7);
-        City city8 = new City(140, 140);
+        City city8 = new City(140, 140, "Rzeszow");
         TourManager.addCity(city8);
-        City city9 = new City(40, 120);
+        City city9 = new City(40, 120, "Warka");
         TourManager.addCity(city9);
-        City city10 = new City(100, 120);
+        City city10 = new City(100, 120, "Wroclaw");
         TourManager.addCity(city10);
-        City city11 = new City(180, 100);
-        TourManager.addCity(city11);
-        City city12 = new City(60, 80);
-        TourManager.addCity(city12);
-        City city13 = new City(120, 80);
-        TourManager.addCity(city13);
-        City city14 = new City(180, 60);
-        TourManager.addCity(city14);
-        City city15 = new City(20, 40);
-        TourManager.addCity(city15);
-        City city16 = new City(100, 40);
-        TourManager.addCity(city16);
-        City city17 = new City(200, 40);
-        TourManager.addCity(city17);
-        City city18 = new City(20, 20);
-        TourManager.addCity(city18);
-        City city19 = new City(60, 20);
-        TourManager.addCity(city19);
-        City city20 = new City(160, 20);
-        TourManager.addCity(city20);
+
 
         // Initialize population
-        Population pop = new Population(50, true);
-        System.out.println("Initial distance: " + pop.getFittest().getDistance());
-
+        Population population = new Population(50, true);
+        System.out.println("Initial distance: " + population.getFittest().getFinalDistance());
+        System.out.println(population.getFittestTour());
+        population.setBaseTour(population.getFittestTour());
         // Evolve population for 100 generations
-        pop = GeneticAlgorithm.evolvePopulation(pop);
-        for (int i = 0; i < 100; i++) {
-            pop = GeneticAlgorithm.evolvePopulation(pop);
+//        population = GeneticAlgorithm.evolvePopulation(population);
+        for (int i = 0; i < 5; i++) {
+            population = GeneticAlgorithm.evolvePopulation(population);
         }
 
         // Print final results
         System.out.println("Finished");
-        System.out.println("Final distance: " + pop.getFittest().getDistance());
+        population.getFittest();
+        System.out.println("Final distance: " + population.getFittestTour().getFinalDistance());
         System.out.println("Solution:");
-        System.out.println(pop.getFittest());
+        System.out.println(population.getFittestTour());
+
+
     }
 
 }

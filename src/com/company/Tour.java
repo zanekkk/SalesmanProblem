@@ -5,14 +5,15 @@ package com.company;
  * Stores a candidate tour
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
-public class Tour {
+public class Tour implements Serializable{
 
     // Holds our tour of cities
-    private ArrayList tour = new ArrayList<City>();
-    // Cache
+    private LinkedList<City> tour = new LinkedList<City>();
     private double fitness = 0;
     private int distance = 0;
 
@@ -23,7 +24,7 @@ public class Tour {
         }
     }
 
-    public Tour(ArrayList tour) {
+    public Tour(LinkedList<City> tour) {
         this.tour = tour;
     }
 
@@ -35,6 +36,11 @@ public class Tour {
         }
         // Randomly reorder the tour
         Collections.shuffle(tour);
+    }
+
+    public void setTour(LinkedList<City> arrayList){
+        tour = arrayList;
+
     }
 
     // Gets a city from the tour
@@ -50,37 +56,20 @@ public class Tour {
         distance = 0;
     }
 
-    // Gets the tours fitness
     public double getFitness() {
-        if (fitness == 0) {
-            fitness = 1 / (double) getDistance();
-        }
         return fitness;
     }
 
-    // Gets the total distance of the tour
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+
     public int getDistance() {
-        if (distance == 0) {
-            int tourDistance = 0;
-            // Loop through our tour's cities
-            for (int cityIndex = 0; cityIndex < tourSize(); cityIndex++) {
-                // Get city we're travelling from
-                City fromCity = getCity(cityIndex);
-                // City we're travelling to
-                City destinationCity;
-                // Check we're not on our tour's last city, if we are set our
-                // tour's final destination city to our starting city
-                if (cityIndex + 1 < tourSize()) {
-                    destinationCity = getCity(cityIndex + 1);
-                } else {
-                    destinationCity = getCity(0);
-                }
-                // Get the distance between the two cities
-                tourDistance += fromCity.distanceTo(destinationCity);
-            }
-            distance = tourDistance;
-        }
         return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     // Get number of cities on our tour
@@ -88,9 +77,15 @@ public class Tour {
         return tour.size();
     }
 
+
     // Check if the tour contains a city
     public boolean containsCity(City city) {
         return tour.contains(city);
+    }
+
+    public int getFinalDistance(){
+
+        return distance;
     }
 
     @Override
@@ -99,6 +94,13 @@ public class Tour {
         for (int i = 0; i < tourSize(); i++) {
             geneString += getCity(i) + "|";
         }
+        geneString += getCity(0) ;
+        geneString += "|\n";
+
+        for (int i = 0; i < tourSize(); i++) {
+            geneString += getCity(i).getName() + " -> ";
+        }
+        geneString += getCity(0).getName();
         return geneString;
     }
 }

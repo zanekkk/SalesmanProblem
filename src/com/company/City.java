@@ -1,6 +1,8 @@
 package com.company;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable {
     int x;
     int y;
     String name;
@@ -11,11 +13,6 @@ public class City {
         this.y = (int) (Math.random() * 200);
     }
 
-    // Constructs a city at chosen x, y location
-    public City(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
 
     public City(int x, int y, String name) {
         this.x = x;
@@ -33,13 +30,19 @@ public class City {
         return this.y;
     }
 
-    // Gets the distance to given city
+    // obliczanie odleglosci pomiedzy miastami
     public double distanceTo(City city) {
+        //abs zwraca wartosc bezwzgledna
         int xDistance = Math.abs(getX() - city.getX());
         int yDistance = Math.abs(getY() - city.getY());
+        //sqrt to jest pierwiastek kwadratowy
         double distance = Math.sqrt((xDistance * xDistance) + (yDistance * yDistance));
 
         return distance;
+    }
+
+    public String getName(){
+        return name;
     }
 
     @Override
