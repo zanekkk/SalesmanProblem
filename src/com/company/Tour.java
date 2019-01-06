@@ -5,15 +5,19 @@ package com.company;
  * Stores a candidate tour
  */
 
+
+import java.awt.*;
 import java.io.Serializable;
+import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
-public class Tour implements Serializable{
+public class Tour implements Serializable {
 
+    private ArrayList baseCities;
     // Holds our tour of cities
-    private LinkedList<City> tour = new LinkedList<City>();
+    private ArrayList<City> tour = new ArrayList<City>();
+    // Cache
     private double fitness = 0;
     private int distance = 0;
 
@@ -24,7 +28,7 @@ public class Tour implements Serializable{
         }
     }
 
-    public Tour(LinkedList<City> tour) {
+    public Tour(ArrayList tour) {
         this.tour = tour;
     }
 
@@ -38,14 +42,9 @@ public class Tour implements Serializable{
         Collections.shuffle(tour);
     }
 
-    public void setTour(LinkedList<City> arrayList){
-        tour = arrayList;
-
-    }
-
     // Gets a city from the tour
     public City getCity(int tourPosition) {
-        return (City) tour.get(tourPosition);
+        return tour.get(tourPosition);
     }
 
     // Sets a city in a certain position within a tour
@@ -77,15 +76,22 @@ public class Tour implements Serializable{
         return tour.size();
     }
 
-
     // Check if the tour contains a city
     public boolean containsCity(City city) {
-        return tour.contains(city);
-    }
+        Integer x = city.x;
+        Integer y = city.y;
+        for (int i = 0; i < tourSize(); i++) {
+            City xcity = tour.get(i);
+            if ((x == null) || y == null || xcity == (null)) {
 
-    public int getFinalDistance(){
+            }else{
+                if (city.x == getCity(i).x && city.y == getCity(i).y) {
+                    return true;
+                }
+            }
+        }
 
-        return distance;
+        return false;
     }
 
     @Override
@@ -94,7 +100,7 @@ public class Tour implements Serializable{
         for (int i = 0; i < tourSize(); i++) {
             geneString += getCity(i) + "|";
         }
-        geneString += getCity(0) ;
+        geneString += getCity(0);
         geneString += "|\n";
 
         for (int i = 0; i < tourSize(); i++) {
@@ -102,5 +108,13 @@ public class Tour implements Serializable{
         }
         geneString += getCity(0).getName();
         return geneString;
+    }
+
+    public ArrayList getBaseCities() {
+        return baseCities;
+    }
+
+    public void setBaseCities(ArrayList baseCities) {
+        this.baseCities = baseCities;
     }
 }

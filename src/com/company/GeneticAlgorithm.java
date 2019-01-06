@@ -1,12 +1,15 @@
 package com.company;
+/*
+ * GA.java
+ * Manages algorithms for evolving population
+ */
+
+
+import java.util.ArrayList;
 
 public class GeneticAlgorithm {
 
-    /*
-     * GA.java
-     * Manages algorithms for evolving population
-     */
-
+    /* GA parameters */
     private static final double mutationRate = 0.015;
     private static final int tournamentSize = 5;
     private static final boolean elitism = true;
@@ -25,14 +28,14 @@ public class GeneticAlgorithm {
         // Crossover population
         // Loop over the new population's size and create individuals from
         // Current population
-        for (int i = elitismOffset; i < pop.populationSize() ; i++) {
+        for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
             // Select parents
             Tour parent1 = tournamentSelection(pop);
             Tour parent2 = tournamentSelection(pop);
             // Crossover parents
-            Tour child = crossover(parent1, parent2, parent1.tourSize());
+            Tour child = crossover(parent1, parent2);
             // Add child to new population
-            newPopulation.saveTour(i, child);
+            newPopulation.saveTour(i, checkChild(child));
         }
 
         // Mutate the new population a bit to add some new genetic material
@@ -44,17 +47,16 @@ public class GeneticAlgorithm {
     }
 
     // Applies crossover to a set of parents and creates offspring
-    public static Tour crossover(Tour parent1, Tour parent2, int tourSize) {
+    public static Tour crossover(Tour parent1, Tour parent2) {
         // Create new child tour
         Tour child = new Tour();
 
         // Get start and end sub tour positions for parent1's tour
         int startPos = (int) (Math.random() * parent1.tourSize());
-        int endPos = (int) (Math.random() * parent1.tourSize());
+        int endPos = (int) (Math.random() * parent2.tourSize());
 
         // Loop and add the sub tour from parent1 to our child
-        //child.tourSize()
-        for (int i = 0; i < tourSize; i++) {
+        for (int i = 0; i < child.tourSize(); i++) {
             // If our start position is less than the end position
             if (startPos < endPos && i > startPos && i < endPos) {
                 child.setCity(i, parent1.getCity(i));
@@ -71,7 +73,7 @@ public class GeneticAlgorithm {
             // If child doesn't have the city add it
             if (!child.containsCity(parent2.getCity(i))) {
                 // Loop to find a spare position in the child's tour
-                for (int ii = 0; ii < tourSize; ii++) {
+                for (int ii = 0; ii < child.tourSize(); ii++) {
                     // Spare position found, add city
                     if (child.getCity(ii) == null) {
                         child.setCity(ii, parent2.getCity(i));
@@ -80,6 +82,8 @@ public class GeneticAlgorithm {
                 }
             }
         }
+
+     //   child = checkChild(child);
         return child;
     }
 
@@ -101,6 +105,8 @@ public class GeneticAlgorithm {
                 tour.setCity(tourPos1, city2);
             }
         }
+
+
     }
 
     // Selects candidate tour for crossover
@@ -117,5 +123,48 @@ public class GeneticAlgorithm {
         Tour fittest = tournament.getFittest();
         return fittest;
     }
-}
 
+
+    private static Tour checkChild(Tour child) {
+        ArrayList<City> cities = new ArrayList<>();
+
+        for (int i = 0; i < child.tourSize(); i++) {
+            City cityFromChild = child.getCity(i);
+            System.out.print(child.getCity(i));
+            if (citiesContains(cities,cityFromChild)) {
+                child.setCity(i, findCityNotContains(child));
+                System.out.print("JESTEM W");
+            } else {
+                cities.add(cityFromChild);
+            }
+
+        }
+        return child;
+    }
+
+    private static boolean citiesContains(ArrayList<City> tour, City city){
+        Integer x = city.x;
+        Integer y = city.y;
+        for (int i = 0; i < tour.size(); i++) {
+            if (!(x.equals(null) && y.equals(null))) {
+                if (city.x == tour.get(i).x && city.y == tour.get(i).y) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    private static City findCityNotContains(Tour child) {
+        System.out.print(TourManager.getDestinationCities());
+
+        for (int i = 0; i < TourManager.numberOfCities(); i++) {
+
+            if (!child.containsCity(TourManager.getCity(i))) {
+                return TourManager.getCity(i);
+            }
+        }
+        return null;
+    }
+}

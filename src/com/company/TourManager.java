@@ -26,4 +26,8 @@ public class TourManager {
     public static int numberOfCities() {
         return destinationCities.size();
     }
+
+    public static ArrayList getDestinationCities() {
+        return destinationCities;
+    }
 }

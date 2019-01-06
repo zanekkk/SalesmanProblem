@@ -11,9 +11,10 @@ public class Main {
 //        int number, temp ;
 //        Scanner sc = new Scanner(System.in);
 //        Socket s = new Socket("127.0.0.1",1342);
-//        Scanner sc1 =  new Scanner(s.getInputStream());
+//        Scanner citiessc1 =  new Scanner(s.getInputStream());
 
-        // Create and add our cities
+
+        // Create and add our
         City city = new City(60, 200, "Opole");
         TourManager.addCity(city);
         City city2 = new City(180, 200,"Warszawa");
@@ -38,19 +39,19 @@ public class Main {
 
         // Initialize population
         Population population = new Population(50, true);
-        System.out.println("Initial distance: " + population.getFittest().getFinalDistance());
+
+        System.out.println("Initial distance: " + population.getFittest().getDistance());
         System.out.println(population.getFittestTour());
-        population.setBaseTour(population.getFittestTour());
         // Evolve population for 100 generations
 //        population = GeneticAlgorithm.evolvePopulation(population);
         for (int i = 0; i < 5; i++) {
-            population = GeneticAlgorithm.evolvePopulation(population);
+             population = GeneticAlgorithm.evolvePopulation(population);
         }
 
         // Print final results
         System.out.println("Finished");
-        population.getFittest();
-        System.out.println("Final distance: " + population.getFittestTour().getFinalDistance());
+//        population.getFittest();
+        System.out.println("Final distance: " + population.getFittest().getDistance());
         System.out.println("Solution:");
         System.out.println(population.getFittestTour());
 

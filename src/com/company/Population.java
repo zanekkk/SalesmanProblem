@@ -12,15 +12,14 @@ import java.util.LinkedList;
 public class Population {
 
     // Holds population of tours
-    ArrayList<Tour> tourList;
+    Tour[] tours;
     Tour fittestTour;
-    Tour baseTour;
     int populationSize ;
 
 
     // Construct a population
     public Population(int populationSize, boolean initialise) {
-        tourList = new ArrayList<>();
+        tours = new Tour[populationSize];
         this.populationSize = populationSize;
         fittestTour = new Tour();
         // If we need to initialise a population of tours do so
@@ -40,17 +39,18 @@ public class Population {
 //    }
 
     public void saveTour(int index, Tour tour) {
-        tourList.add(index, tour);
+        tours[index] = tour;
     }
+
 
 //    // Gets a tour from population
 //    public Tour getTour(int index) {
 //        return tours[index];
 //    }
-
-    public Tour getTour(int index) {
-        return tourList.get(index);
-    }
+// Gets a tour from population
+public Tour getTour(int index) {
+    return tours[index];
+}
 
 
 
@@ -59,13 +59,13 @@ public class Population {
     public Tour getFittest() throws InterruptedException {
         Client client = new Client();
 
-        tourList = client.connection(tourList.size(), tourList);
+        tours = client.connection(tours.length, tours);
 
         //Tour fittest = tours[0];
-        Tour fittest = tourList.get(0);
+        Tour fittest = tours[0];
 
         for (int i = 1; i < populationSize(); i++) {
-            if ( fittest.getFitness() <= tourList.get(i).getFitness()) {
+            if ( fittest.getFitness() <= getTour(i).getFitness()) {
                 fittest = getTour(i);
             }
         }
@@ -118,16 +118,8 @@ public class Population {
         this.fittestTour = fittestTour;
     }
 
-    public Tour getBaseTour() {
-        return baseTour;
-    }
-
-    public void setBaseTour(Tour baseTour) {
-        this.baseTour = baseTour;
-    }
-
     // Gets population size
     public int populationSize() {
-        return tourList.size();
+        return tours.length;
     }
 }
