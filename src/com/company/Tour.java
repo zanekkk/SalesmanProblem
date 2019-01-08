@@ -110,6 +110,10 @@ public class Tour implements Serializable {
         return geneString;
     }
 
+
+    public String stringDistance(){
+        return "Dystans: " + distance;
+    }
     public ArrayList getBaseCities() {
         return baseCities;
     }

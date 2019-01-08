@@ -72,33 +72,10 @@ public Tour getTour(int index) {
 
 
         setFittestTour(fittest);
+        System.out.println(fittest.stringDistance());
         return fittest;
 
-//        LinkedList<Fitness> fitnessList = new LinkedList<>();
-//        Lock lock = new Lock();
-//
-//
-//        for (int i = 0; i < populationSize(); i++) {
-//
-//                fitnessList.add(new Fitness(tours[i], lock));
-//                fitnessList.get(i).start();  // Start download in another thread
-//
-//        }
-//
-//        while (lock.getRunningThreadsNumber() > 0) {
-//            synchronized (lock) {
-//                lock.wait();
-//            }
-//
-//        }
-//
-//        for(int i = 0 ; i < tours.length ; i++){
-//           if(tours[i].getFitness() == 0) {
-//                tours[i] = fitnessList.get(i).getTour();
-//            }
-//        }
-//        fitnessList.clear();
-//
+
     }
 
     public int getPopulationSize() {

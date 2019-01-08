@@ -7,14 +7,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args)  throws UnknownHostException, IOException, InterruptedException {
-//        int number, temp ;
-//        Scanner sc = new Scanner(System.in);
-//        Socket s = new Socket("127.0.0.1",1342);
-//        Scanner citiessc1 =  new Scanner(s.getInputStream());
+    public static void main(String[] args)  throws InterruptedException {
 
-
-        // Create and add our
         City city = new City(60, 200, "Opole");
         TourManager.addCity(city);
         City city2 = new City(180, 200,"Warszawa");
